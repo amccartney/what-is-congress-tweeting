@@ -23,7 +23,7 @@ filename.close()
 
 
 
-#writes latest two tweets to a txt file
+#writes latest tweet to a txt file
 tmp_write = open('tmp.txt','w')
 count = 1;
 
