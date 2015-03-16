@@ -32,7 +32,8 @@ for a in f:
 	timeline = api.user_timeline(id=a, count=count)
 	for status in timeline:
 		x = status.text.encode('utf-8')
-		tmp_write.write(x) 
+		tmp_write.write(x)
+		sleep(2)
 
 tmp_write.close()
 
@@ -45,6 +46,7 @@ words = re.findall(r'\w{5,}', open('tmp.txt').read().lower())
 most_frequent_words = sorted(Counter(words).most_common(1), key=lambda (x,y): (y,x))
 for (word, freq) in most_frequent_words:
   print word
+  #api.update_status("Congress' most used word today was" + word)
 
 #most common hashtags
 hashtags = re.findall(r'#(\w+)', open('tmp.txt').read().lower())
@@ -52,6 +54,7 @@ hashtags = re.findall(r'#(\w+)', open('tmp.txt').read().lower())
 most_frequent_hashtags = sorted(Counter(hashtags).most_common(1), key=lambda (x,y): (y,x))
 for (hashtag, freq) in most_frequent_hashtags:
   print "#" + hashtag
+   #api.update_status("Congress' most used hashtag today was" + hashtag)
 
 #most common handles
 handles = re.findall(r'@(\w+)', open('tmp.txt').read().lower())
@@ -59,5 +62,6 @@ handles = re.findall(r'@(\w+)', open('tmp.txt').read().lower())
 most_frequent_handles = sorted(Counter(handles).most_common(1), key=lambda (x,y): (y,x))
 for (handle, freq) in most_frequent_handles:
   print "@" + handle
+   #api.update_status("Congress' most mentioned user today was" + handle)
 
 os.remove('tmp.txt')
