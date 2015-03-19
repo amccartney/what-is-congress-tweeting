@@ -1,5 +1,6 @@
-import tweepy, time, sys, os, ConfigParser, re
+import tweepy, time, sys, os, ConfigParser, re, csv, datetime
 from collections import Counter
+#from datetime import datetime
 
 sys.path.append('keys-dir')
 
@@ -15,12 +16,9 @@ auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 
 api = tweepy.API(auth)
 
-filename = open('congress_screen_names_SHORT.txt','r')
-f = filename.readlines()
-filename.close()
-
-
-
+file_one = open('congress_screen_names_SHORT.txt','r')
+f = file_one.readlines()
+file_one.close()
 
 
 #writes latest tweet to a txt file
@@ -32,12 +30,18 @@ for a in f:
 	timeline = api.user_timeline(id=a, count=count)
 	for status in timeline:
 		x = status.text.encode('utf-8')
-		tmp_write.write(x)
-		sleep(2)
+		d = status.created_at
+		tmp_write.write(d.strftime('%m%d%H%M') + " " + x + '\n')
+		time.sleep(6)
 
 tmp_write.close()
 
+current_time = datetime.datetime.now().time 
 
+ct = current_time.strftime('%m%d%H%M')
+onedayago = ct - 10000
+
+if ct - tmp[1] > onedayago:
 
 
 #reads the text file of tweets and finds the most common words, hashtags and handles
@@ -64,4 +68,4 @@ for (handle, freq) in most_frequent_handles:
   print "@" + handle
    #api.update_status("Congress' most mentioned user today was" + handle)
 
-os.remove('tmp.txt')
+#os.remove('tmp.txt')
